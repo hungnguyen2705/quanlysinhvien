@@ -21,7 +21,7 @@ spring:
           uri: lb://student-service
           predicates:
             
-            - Path=/api/students/** 
+            - Path=/api/students/**
 
         - id: course-service-route
           uri: lb://course-service
