@@ -1,38 +1,34 @@
-
 server:
   port: 8080
 
 spring:
   application:
-    
     name: api-gateway
   cloud:
     gateway:
       discovery:
         locator:
-          
           enabled: true
-      
-      
       routes:
-
         - id: student-service-route
-          
           uri: lb://student-service
           predicates:
+            - Path=/api/students/**
             
+<<<<<<< HEAD
             - Path=/api/students/**
 
+=======
+>>>>>>> parent of bf39425 (up)
         - id: course-service-route
           uri: lb://course-service
           predicates:
             - Path=/api/courses/**
-
+            
         - id: enrollment-service-route
           uri: lb://enrollment-service
           predicates:
             - Path=/api/enrollments/**
-
 
 eureka:
   client:
