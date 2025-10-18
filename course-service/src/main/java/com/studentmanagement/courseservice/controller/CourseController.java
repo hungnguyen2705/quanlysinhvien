@@ -10,12 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/courses") // URL gốc cho tất cả các API trong controller này
+@RequestMapping("/api/courses")
 public class CourseController {
 
     @Autowired
     private CourseRepository courseRepository;
-
 
     @PostMapping
     public ResponseEntity<Course> createCourse(@RequestBody Course course) {
@@ -23,7 +22,6 @@ public class CourseController {
         return new ResponseEntity<>(savedCourse, HttpStatus.CREATED);
     }
 
-   
     @GetMapping
     public List<Course> getAllCourses() {
         return courseRepository.findAll();

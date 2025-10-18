@@ -36,8 +36,6 @@ public class Enrollment {
     public Long getCourseId() {
         return courseId;
     }
-
-    // --- SETTERS ---
     
     public void setId(Long id) {
         this.id = id;

@@ -17,20 +17,17 @@ public class StudentController {
     @Autowired
     private StudentRepository studentRepository;
 
-    
     @PostMapping
     public ResponseEntity<Student> createStudent(@RequestBody Student student) {
         Student savedStudent = studentRepository.save(student);
         return new ResponseEntity<>(savedStudent, HttpStatus.CREATED);
     }
 
-    
     @GetMapping
     public List<Student> getAllStudents() {
         return studentRepository.findAll();
     }
 
-    
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
         Optional<Student> studentData = studentRepository.findById(id);

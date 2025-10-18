@@ -27,18 +27,20 @@ public class EnrollmentController {
         Mono<Boolean> studentExistsMono = webClientBuilder.build().get()
                 .uri("http://student-service/api/students/" + enrollment.getStudentId()) 
                 .retrieve() 
-                .bodyToMono(String.class) 
-                .map(response -> true)
-                .onErrorResume(e -> Mono.just(false)) 
-                .defaultIfEmpty(false);
+                .onStatus(HttpStatus.NOT_FOUND::equals, clientResponse -> Mono.empty())
+                .onStatus(HttpStatus::isError, clientResponse -> 
+                    clientResponse.createException().flatMap(Mono::error))
+                .bodyToMono(Void.class)
+                .hasElement();
 
         Mono<Boolean> courseExistsMono = webClientBuilder.build().get()
                 .uri("http://course-service/api/courses/" + enrollment.getCourseId()) 
                 .retrieve()
-                .bodyToMono(String.class)
-                .map(response -> true)
-                .onErrorResume(e -> Mono.just(false))
-                .defaultIfEmpty(false);
+                .onStatus(HttpStatus.NOT_FOUND::equals, clientResponse -> Mono.empty())
+                .onStatus(HttpStatus::isError, clientResponse -> 
+                    clientResponse.createException().flatMap(Mono::error))
+                .bodyToMono(Void.class)
+                .hasElement();
 
         return Mono.zip(studentExistsMono, courseExistsMono)
             .flatMap(tuple -> {
